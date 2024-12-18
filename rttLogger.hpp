@@ -25,9 +25,7 @@ class RttLogger
 #endif
     static void init(const Type logLevel = defaultLevel, const size_t reservedMsgSize = 256);
     static void clear();
-    template <typename... Args>
-    static void log(
-        const Type logType, const std::source_location &location, const std::string_view format, const Args... args);
+    template <typename... Args> static void log(const Type logType, const std::source_location &location, const std::string_view format, const Args... args);
     static void log(const std::span<const std::byte> buffer);
 
     RttLogger() = delete;
@@ -45,9 +43,7 @@ class RttLogger
 
 static_assert(Logger<RttLogger>);
 
-template <typename... Args>
-void RttLogger::log(
-    const Type logType, const std::source_location &location, const std::string_view format, const Args... args)
+template <typename... Args> void RttLogger::log(const Type logType, const std::source_location &location, const std::string_view format, const Args... args)
 {
     assert(ThreadX::Kernel::inThread());
 
@@ -58,8 +54,7 @@ void RttLogger::log(
         addTime();
         addColourControl(logType);
         addMessage(logType, format);
-        SEGGER_RTT_printf(
-            0, m_message.data(), args..., location.file_name(), location.line(), location.function_name());
+        SEGGER_RTT_printf(0, m_message.data(), args..., location.file_name(), location.line(), location.function_name());
     }
 }
 
