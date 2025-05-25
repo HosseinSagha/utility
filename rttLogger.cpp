@@ -1,5 +1,5 @@
 #include "rttLogger.hpp"
-#include "tickTimer.hpp"
+#include "threadx-cpp/tickTimer.hpp"
 
 void RttLogger::init(const Type logLevel, const size_t reservedMsgSize)
 {

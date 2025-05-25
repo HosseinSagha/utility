@@ -1,8 +1,8 @@
 #pragma once
 
-#include "kernel.hpp"
 #include "logger.hpp"
-#include "mutex.hpp"
+#include "threadx-cpp/kernel.hpp"
+#include "threadx-cpp/mutex.hpp"
 #include <SEGGER_RTT.h>
 #include <string>
 
@@ -25,7 +25,8 @@ class RttLogger
 #endif
     static void init(const Type logLevel = defaultLevel, const size_t reservedMsgSize = 256);
     static void clear();
-    template <typename... Args> static void log(const Type logType, const std::source_location &location, const std::string_view format, const Args... args);
+    template <typename... Args>
+    static void log(const Type logType, const std::source_location &location, const std::string_view format, const Args... args);
     static void log(const std::span<const std::byte> buffer);
 
     RttLogger() = delete;
@@ -43,7 +44,8 @@ class RttLogger
 
 static_assert(Logger<RttLogger>);
 
-template <typename... Args> void RttLogger::log(const Type logType, const std::source_location &location, const std::string_view format, const Args... args)
+template <typename... Args>
+void RttLogger::log(const Type logType, const std::source_location &location, const std::string_view format, const Args... args)
 {
     assert(ThreadX::Kernel::inThread());
 
